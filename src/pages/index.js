@@ -24,7 +24,7 @@ function Header() {
         </span>
 
         <span className="font-mono tracking-[10px] text-xs md:text-base w-44 md:w-fit flex flex-col md:flex-row md:gap-2">
-          <span className="font-thin">DIÁRIO DE</span>
+          <span className="font-light">DIÁRIO DE</span>
           <span className="font-bold">PERSONAGEM</span>
         </span>
       </div>
@@ -42,15 +42,15 @@ function Charactetistics() {
         />
         <span className="font-mono">
           <span className="font-bold">NOME </span>
-          <span className="font-thin">& IDADE</span>
+          <span className="font-light">& IDADE</span>
         </span>
       </label>
 
       <label className="flex flex-1 flex-col-reverse md:flex-col gap-2">
         <textarea className="bg-zinc-200 h-32 resize-none outline-none pl-2 pt-2" />
         <span className="font-mono">
-          <span className="font-bold">DESCRIÇÃO, </span>
-          <span className="font-thin">TIPO, ESPECIALIDADE & ARQUÉTIPO</span>
+          <span className="font-bold">DESCRIÇÃO</span>
+          <span className="font-light">, TIPO, ESPECIALIDADE & ARQUÉTIPO</span>
         </span>
       </label>
 
@@ -254,7 +254,7 @@ function Details() {
       <label className="flex flex-1 flex-col gap-2">
         <span>
           <span className="font-mono">
-            <span className="font-thin">PONTOS DE </span>
+            <span className="font-light">PONTOS DE </span>
             <span className="font-bold">EXPERIÊNCIA</span>
           </span>
         </span>
