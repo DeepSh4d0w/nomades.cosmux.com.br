@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html lang="pt-BR">
       <Head>
-        <title>Nômades</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
