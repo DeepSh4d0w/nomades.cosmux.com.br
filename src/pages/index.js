@@ -20,7 +20,7 @@ function Checkbox({ type, checked, onChange }) {
       checked={isChecked}
       // onChange={() => setIsChecked(!isChecked)}
       onChange={handleChange}
-      className="md:col-span-1 data-[type=life]:size-9 data-[type=life]:md:size-12 data-[type=other]:w-[47px] data-[type=other]:md:w-[67px] data-[type=other]:h-8 data-[type=other]:md:h-10 appearance-none bg-zinc-300 border-none data-[type=life]:checked:bg-red-600 data-[type=other]:checked:bg-black checked:hover:animate-pulse"
+      className="md:col-span-1 data-[type=life]:size-8 data-[type=life]:md:size-12 data-[type=other]:w-[47px] data-[type=other]:md:w-[67px] data-[type=other]:h-8 data-[type=other]:md:h-10 appearance-none bg-zinc-300 border-none data-[type=life]:checked:bg-red-600 data-[type=other]:checked:bg-black checked:hover:animate-pulse"
     />
   );
 }
@@ -157,7 +157,7 @@ function Statistics({ character }) {
         <span className="font-mono">
           <span className="font-bold">VIDA</span>
         </span>
-        <div className="md:w-full grid grid-cols-10 md:grid-cols-20 md:grid-flow-col gap-x-2 gap-y-1 md:gap-1.5">
+        <div className="w-full grid grid-cols-10 md:grid-cols-20 md:grid-flow-col gap-x-4 gap-y-2 md:gap-1.5">
           {life.map((isChecked, index) => (
             <Checkbox
               key={index}
@@ -304,16 +304,18 @@ export default function Sheet() {
   };
 
   return (
-    <div className="flex flex-col divide-y-2 divide-zinc-200 px-5 md:px-36">
-      <Header />
+    <div className="h-screen w-screen grid flex-col divide-y-2 items-center justify-center divide-zinc-200 px-5 md:px-36">
+      <div className="">
+        <Header />
 
-      <main>
-        <form className="flex flex-col divide-y-2 divide-zinc-200">
-          <Charactetistics character={character} />
-          <Statistics character={character} />
-          <Details character={character} />
-        </form>
-      </main>
+        <main>
+          <form className="flex flex-col divide-y-2 divide-zinc-200">
+            <Charactetistics character={character} />
+            <Statistics character={character} />
+            <Details character={character} />
+          </form>
+        </main>
+      </div>
     </div>
   );
 }
