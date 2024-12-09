@@ -1,58 +1,62 @@
 import { useState } from "react";
 import { Input } from "../../../global/Input";
 import { Checkbox } from "../../../global/Checkbox";
+import { setCookie } from "nookies";
 
-export function Statistics({ character }) {
-  const [life, setLife] = useState(Array(character.life.max).fill(true));
+export function Statistics({ character, setCharacter }) {
+  const [life, setLife] = useState(Array(character.life.max).fill(false));
   const [focus, setFocus] = useState(Array(character.focus.max).fill(false));
   const [power, setPower] = useState(Array(character.power.max).fill(false));
 
-  function handleLifeChange(index) {
-    const updatedLife = [...life];
-    updatedLife[index] = !updatedLife[index];
-
-    // Desmarcando todos os checkboxes acima do checkbox clicado
-    for (let i = 0; i < index; i++) {
-      updatedLife[i] = true;
+  function handleUpdateState(list) {
+    for (let i = 0; i < list.length; i++) {
+      for (let ii = 0; ii < list[i].source.current; ii++) {
+        list[i].state[ii] = true;
+      }
     }
-
-    for (let i = 19; i > index; i--) {
-      updatedLife[i] = false;
-    }
-
-    setLife(updatedLife);
   }
 
-  function handleFocusChange(index) {
-    const updatedFocus = [...focus];
-    updatedFocus[index] = !updatedFocus[index];
+  handleUpdateState([
+    { source: character.life, state: life },
+    { source: character.focus, state: focus },
+    { source: character.power, state: power },
+  ]);
+
+  function handleStateChange(index, name, state, setState) {
+    const updatedState = [...state];
+    updatedState[index] = !updatedState[index];
 
     // Desmarcando todos os checkboxes acima do checkbox clicado
     for (let i = 0; i < index; i++) {
-      updatedFocus[i] = true;
+      updatedState[i] = true;
     }
 
-    for (let i = 6; i > index; i--) {
-      updatedFocus[i] = false;
+    for (let i = state.length - 1; i > index; i--) {
+      updatedState[i] = false;
     }
 
-    setFocus(updatedFocus);
-  }
-
-  function handlePowerChange(index) {
-    const updatedPower = [...power];
-    updatedPower[index] = !updatedPower[index];
-
-    // Desmarcando todos os checkboxes acima do checkbox clicado
-    for (let i = 0; i < index; i++) {
-      updatedPower[i] = true;
-    }
-
-    for (let i = 6; i > index; i--) {
-      updatedPower[i] = false;
-    }
-
-    setPower(updatedPower);
+    setCharacter({
+      ...character,
+      [name]: {
+        max: character[name].max,
+        current: updatedState.filter((value) => value == true).length,
+      },
+    });
+    setCookie(
+      null,
+      "character",
+      JSON.stringify({
+        ...character,
+        [name]: {
+          max: character[name].max,
+          current: updatedState.filter((value) => value == true).length,
+        },
+      }),
+      {
+        maxAge: 86400 * 365,
+      }
+    );
+    setState(updatedState);
   }
 
   return (
@@ -67,7 +71,7 @@ export function Statistics({ character }) {
               key={index}
               type="life"
               checked={isChecked}
-              onChange={() => handleLifeChange(index)}
+              onChange={() => handleStateChange(index, "life", life, setLife)}
             />
           ))}
         </div>
@@ -79,9 +83,39 @@ export function Statistics({ character }) {
             <span className="font-bold">FORÇA</span>
           </span>
           <div className="flex gap-2">
-            <Input value={character.force.name} />
+            <Input
+              value={character.force.name}
+              onChange={(newName) =>
+                setCookie(
+                  null,
+                  "character",
+                  JSON.stringify({
+                    ...character,
+                    force: { name: newName, value: character.force.value },
+                  }),
+                  {
+                    maxAge: 86400 * 365,
+                  }
+                )
+              }
+            />
             <div>
-              <Input value={character.force.value} />
+              <Input
+                value={character.force.value}
+                onChange={(newValue) =>
+                  setCookie(
+                    null,
+                    "character",
+                    JSON.stringify({
+                      ...character,
+                      force: { name: character.force.name, value: newValue },
+                    }),
+                    {
+                      maxAge: 86400 * 365,
+                    }
+                  )
+                }
+              />
             </div>
           </div>
         </label>
@@ -93,9 +127,45 @@ export function Statistics({ character }) {
             <span className="font-bold">PROTEÇÃO</span>
           </span>
           <div className="flex flex-1 w-full gap-2">
-            <Input value={character.protection.name} />
+            <Input
+              value={character.protection.name}
+              onChange={(newValue) =>
+                setCookie(
+                  null,
+                  "character",
+                  JSON.stringify({
+                    ...character,
+                    protection: {
+                      name: character.protection.name,
+                      value: newValue,
+                    },
+                  }),
+                  {
+                    maxAge: 86400 * 365,
+                  }
+                )
+              }
+            />
             <div>
-              <Input value={character.protection.value} />
+              <Input
+                value={character.protection.value}
+                onChange={(newValue) =>
+                  setCookie(
+                    null,
+                    "character",
+                    JSON.stringify({
+                      ...character,
+                      protection: {
+                        name: character.protection.name,
+                        value: newValue,
+                      },
+                    }),
+                    {
+                      maxAge: 86400 * 365,
+                    }
+                  )
+                }
+              />
             </div>
           </div>
         </label>
@@ -112,7 +182,9 @@ export function Statistics({ character }) {
                 key={index}
                 type="other"
                 checked={isChecked}
-                onChange={() => handleFocusChange(index)}
+                onChange={() =>
+                  handleStateChange(index, "focus", focus, setFocus)
+                }
               />
             ))}
           </div>
@@ -130,7 +202,9 @@ export function Statistics({ character }) {
                 key={index}
                 type="other"
                 checked={isChecked}
-                onChange={() => handlePowerChange(index)}
+                onChange={() =>
+                  handleStateChange(index, "power", power, setPower)
+                }
               />
             ))}
           </div>
