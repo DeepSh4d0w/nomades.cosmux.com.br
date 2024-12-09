@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Header } from "../components/global/Header/Index";
 import { Characteristics } from "../components/pages/character/Characteristics";
 import { Statistics } from "../components/pages/character/Statistics";
-import { Details } from "../components/pages/Details";
+import { Details } from "../components/pages/character/Details";
 
 export default function Sheet() {
   const [character, setCharacter] = useState({

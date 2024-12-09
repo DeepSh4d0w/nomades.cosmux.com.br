@@ -61,7 +61,7 @@ export function Statistics({ character }) {
         <span className="font-mono">
           <span className="font-bold">VIDA</span>
         </span>
-        <div className="w-full grid grid-cols-10 md:grid-cols-20 md:grid-flow-col gap-x-4 gap-y-2 md:gap-1.5">
+        <div className="w-full grid grid-cols-10 md:grid-cols-20 md:grid-flow-col gap-x-1.5 gap-y-2 md:gap-1.5">
           {life.map((isChecked, index) => (
             <Checkbox
               key={index}
